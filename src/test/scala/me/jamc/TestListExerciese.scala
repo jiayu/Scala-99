@@ -58,18 +58,28 @@ class TestListExerciese extends FunSuite {
   
   test("Q8: Eliminate consecutive duplicates of list elements."){
     //non empty list
-    assert(ListExercises.compress(List('a', 'a', 'a', 'a', 'b', 'c', 'c', 'a', 'a', 'd', 'e', 'e', 'e', 'e')) 
-        == List('a', 'b', 'c', 'a', 'd', 'e'))
+    assert(ListExercises.compress(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e)) 
+        == List('a, 'b, 'c, 'a, 'd, 'e))
     //empty list
     assert(ListExercises.compress(List()) == List())
   }
   
   test("Q9: Pack consecutive duplicates of list elements into sublists."){
     //non empty list
-    assert(ListExercises.pack(List('a', 'a', 'a', 'a', 'b', 'c', 'c', 'a', 'a', 'd', 'e', 'e', 'e', 'e')) 
-        == List(List('a', 'a', 'a', 'a'), List('b'), List('c', 'c'), List('a', 'a'), List('d'), List('e', 'e', 'e', 'e')))
+    assert(ListExercises.pack(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e)) 
+        == List(List('a, 'a, 'a, 'a), List('b), List('c, 'c), List('a, 'a), List('d), List('e, 'e, 'e, 'e)))
   
     //empty list
     assert(ListExercises.pack(List()) == List())
+  }
+  
+  test("Q10: Run-length encoding of a list."){
+    assert(ListExercises.encode(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e))
+        == List((4,'a), (1,'b), (2,'c), (2,'a), (1,'d), (4,'e)))
+  }
+  
+  test("Q11: Modified run-length encoding."){
+    assert(ListExercises.encodeModified(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e)) 
+        == List((4,'a), 'b, (2,'c), (2,'a), 'd, (4,'e)))
   }
 }

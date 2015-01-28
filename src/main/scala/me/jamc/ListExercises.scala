@@ -50,8 +50,8 @@ object ListExercises {
   }
   
   //Q8: Eliminate consecutive duplicates of list elements.
-  def compress(list : List[Char]) : List[Char] = {
-    def subCom(c : Char , list : List[Char]) : List[Char] = list match {
+  def compress(list : List[Symbol]) : List[Symbol] = {
+    def subCom(c : Symbol , list : List[Symbol]) : List[Symbol] = list match {
       case x :: xs => if(c == x) subCom(x , xs) else x :: subCom(x , xs)
       case Nil => List()
     }
@@ -60,9 +60,9 @@ object ListExercises {
   }
   
   //Q9
-  def pack(list : List[Char]) : List[List[Char]] = {
+  def pack(list : List[Symbol]) : List[List[Symbol]] = {
     
-    def subPack(subList : List[Char] , rest : List[Char]) : List[List[Char]] = (subList, rest) match {
+    def subPack(subList : List[Symbol] , rest : List[Symbol]) : List[List[Symbol]] = (subList, rest) match {
       case (Nil, y :: ys) => subPack(List(y), ys)
       case (x :: xs , y :: ys) => if(x == y)  subPack(x :: x :: xs, ys) else List(subList) ++ subPack(List(y), ys)
       case (x :: xs , Nil) => List(subList)
@@ -71,4 +71,19 @@ object ListExercises {
     
     subPack(Nil, list)
   }
+  
+  /*********
+   * Starting from here, I am gonna use more list APIs from scala
+   */
+  
+  //Q10
+  def encode(list : List[Symbol]) : List[(Int, Symbol)] = {
+    pack(list) map ( x => (x.length, x.head ) )
+  }
+  
+  //Q11
+  def encodeModified(list : List[Symbol]) : List[Any] = {
+    encode(list) map (x => if(x._1 == 1) x._2 else x)
+  }
+  
 }
