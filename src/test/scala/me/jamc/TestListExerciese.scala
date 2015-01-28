@@ -55,4 +55,21 @@ class TestListExerciese extends FunSuite {
     assert(ListExercises.flatten(List(List(1, 1, List()), 2, List(3, List(5, 8)), List())) == List(1,1,2,3,5,8))
     assert(ListExercises.flatten(List(List(1, 1), 2, List(3, List(5, 8)))) == List(1,1,2,3,5,8))
   }
+  
+  test("Q8: Eliminate consecutive duplicates of list elements."){
+    //non empty list
+    assert(ListExercises.compress(List('a', 'a', 'a', 'a', 'b', 'c', 'c', 'a', 'a', 'd', 'e', 'e', 'e', 'e')) 
+        == List('a', 'b', 'c', 'a', 'd', 'e'))
+    //empty list
+    assert(ListExercises.compress(List()) == List())
+  }
+  
+  test("Q9: Pack consecutive duplicates of list elements into sublists."){
+    //non empty list
+    assert(ListExercises.pack(List('a', 'a', 'a', 'a', 'b', 'c', 'c', 'a', 'a', 'd', 'e', 'e', 'e', 'e')) 
+        == List(List('a', 'a', 'a', 'a'), List('b'), List('c', 'c'), List('a', 'a'), List('d'), List('e', 'e', 'e', 'e')))
+  
+    //empty list
+    assert(ListExercises.pack(List()) == List())
+  }
 }

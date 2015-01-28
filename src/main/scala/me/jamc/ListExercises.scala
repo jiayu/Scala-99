@@ -1,6 +1,6 @@
 package me.jamc
 
-object ListExercises extends App {
+object ListExercises {
  
   //Q1: find the last element of a list
   def last(list : List[Int]) : Int = list match {
@@ -49,5 +49,26 @@ object ListExercises extends App {
     case Nil => Nil
   }
   
+  //Q8: Eliminate consecutive duplicates of list elements.
+  def compress(list : List[Char]) : List[Char] = {
+    def subCom(c : Char , list : List[Char]) : List[Char] = list match {
+      case x :: xs => if(c == x) subCom(x , xs) else x :: subCom(x , xs)
+      case Nil => List()
+    }
+    
+    if(list.nonEmpty) list.head :: subCom(list.head, list.tail) else List()
+  }
   
+  //Q9
+  def pack(list : List[Char]) : List[List[Char]] = {
+    
+    def subPack(subList : List[Char] , rest : List[Char]) : List[List[Char]] = (subList, rest) match {
+      case (Nil, y :: ys) => subPack(List(y), ys)
+      case (x :: xs , y :: ys) => if(x == y)  subPack(x :: x :: xs, ys) else List(subList) ++ subPack(List(y), ys)
+      case (x :: xs , Nil) => List(subList)
+      case (Nil, Nil) => Nil
+    }
+    
+    subPack(Nil, list)
+  }
 }
