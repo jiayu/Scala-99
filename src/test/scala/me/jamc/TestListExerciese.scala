@@ -80,6 +80,41 @@ class TestListExerciese extends FunSuite {
   
   test("Q11: Modified run-length encoding."){
     assert(ListExercises.encodeModified(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e)) 
-        == List((4,'a), 'b, (2,'c), (2,'a), 'd, (4,'e)))
+        == List((4,'a), 'b, (2,'c), (2,'a), 'd, (4,'e))
+    )
+  }
+  
+  test("Q12: Decode a run-length encoded list."){
+    assert(ListExercises.decode(List((4, 'a), (1, 'b), (2, 'c), (2, 'a), (1, 'd), (4, 'e)))
+        == List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e)
+    )
+  }
+  
+   test("Q13: Run-length encoding of a list (direct solution)."){
+    assert(ListExercises.encodeDirect(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e))
+        == List((4,'a), (1,'b), (2,'c), (2,'a), (1,'d), (4,'e)))
+  }
+  
+  test("Q14: Duplicate the elements of a list."){
+    //Normal case
+    assert(ListExercises.duplicate(List('a, 'b, 'c, 'c, 'd))
+      == List('a, 'a, 'b, 'b, 'c, 'c, 'c, 'c, 'd, 'd)
+    )
+    
+    //duplicate a empty list
+     assert(ListExercises.duplicate(List()) == List())
+  }
+  
+  test("Q15: Duplicate the elements of a list a given number of times."){
+    //Normal case
+    assert(ListExercises.duplicateN(3, List('a, 'b, 'c, 'c, 'd))
+        == List('a, 'a, 'a, 'b, 'b, 'b, 'c, 'c, 'c, 'c, 'c, 'c, 'd, 'd, 'd))
+        
+    //Copy 0 times makes an empty list
+    assert(ListExercises.duplicateN(0, List('a, 'b, 'c, 'c, 'd))
+        == List())
+        
+    //Copy an empty list 10 times
+    assert(ListExercises.duplicateN(10, List()) == List())
   }
 }

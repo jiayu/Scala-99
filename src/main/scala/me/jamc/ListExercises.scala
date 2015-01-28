@@ -53,7 +53,7 @@ object ListExercises {
   def compress(list : List[Symbol]) : List[Symbol] = {
     def subCom(c : Symbol , list : List[Symbol]) : List[Symbol] = list match {
       case x :: xs => if(c == x) subCom(x , xs) else x :: subCom(x , xs)
-      case Nil => List()
+      case Nil => Nil
     }
     
     if(list.nonEmpty) list.head :: subCom(list.head, list.tail) else List()
@@ -86,4 +86,33 @@ object ListExercises {
     encode(list) map (x => if(x._1 == 1) x._2 else x)
   }
   
+  //Q12 
+  def decode(list : List[(Int, Symbol)]) : List[Symbol] = {
+    //convert (4,'a) to List(a,a,a,a)
+    def convert(t : (Int, Symbol)) : List[Symbol] = if(t._1 > 0) List(t._2) ++ convert((t._1 - 1, t._2)) else List()
+    
+    list map (x => convert(x)) flatten
+  }
+  
+  //Q13 
+  def encodeDirect(list : List[Symbol]) : List[(Int, Symbol)] = {
+    
+    def subEncode(t : (Int, Symbol), rest : List[Symbol]) : List[(Int , Symbol)] = rest match {
+      case x :: xs => if(x == t._2) subEncode((t._1 + 1, t._2), xs) else t :: subEncode((1 , x), xs)
+      case Nil => List(t)
+    }
+    
+    subEncode((1, list.head), list.tail)
+  }
+  
+  //Q14
+  def duplicate(list : List[Symbol]) : List[Symbol] = {
+    if(list.nonEmpty) list.head :: list.head :: duplicate(list.tail) else Nil
+  }
+  
+  //Q15
+  def duplicateN(n : Int, list : List[Symbol]) : List[Symbol] = list match {
+    case x::xs => if(n > 0) x :: duplicateN( n - 1, List(x)) ++ duplicateN(n, xs) else Nil
+    case Nil => Nil
+  }
 }
