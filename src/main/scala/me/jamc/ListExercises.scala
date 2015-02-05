@@ -134,4 +134,22 @@ object ListExercises {
     
     move(n, (List[Symbol](), list))
   }
+  
+  //Q18
+  def slice(start : Int, end : Int, list : List[Symbol]) : List[Symbol] = {
+    split(start, split(end, list)._1)._2
+  }
+  
+  //Q19
+  def rotate(n : Int, list : List[Symbol]) : List[Symbol] = list match{
+    case Nil => throw new java.util.NoSuchElementException
+    case x::xs => {
+      if(n > 0) rotate( n-1, xs :+ x) 
+      else if(n < 0){
+        var splitted = split(list.length + n, list)
+        splitted._2 ++ splitted._1
+      }else list
+    }
+
+  }
 }

@@ -144,5 +144,16 @@ class TestListExerciese extends FunSuite {
     intercept[java.util.NoSuchElementException]{ListExercises.split(5, List())}
   }
   
+  test("Q18: Extract a slice from a list."){
+    assert(ListExercises.slice(3, 7, List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i, 'j, 'k))
+      == List('d, 'e, 'f, 'g))
+  }
   
+  test("Q19: Rotate a list N places to the left."){
+    assert(ListExercises.rotate(3, List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i, 'j, 'k))
+      == List('d, 'e, 'f, 'g, 'h, 'i, 'j, 'k, 'a, 'b, 'c))
+      
+    assert(ListExercises.rotate(-2, List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i, 'j, 'k))
+      == List('j, 'k, 'a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i))
+  }
 }
