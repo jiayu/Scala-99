@@ -115,4 +115,23 @@ object ListExercises {
     case x::xs => if(n > 0) x :: duplicateN( n - 1, List(x)) ++ duplicateN(n, xs) else Nil
     case Nil => Nil
   }
+  
+  //Q16
+  def dropNth(n : Int, list : List[Symbol]) : List[Symbol] = list match {
+    case Nil => throw new java.util.NoSuchElementException
+    case x::xs => if(n > 0) x :: dropNth(n - 1, xs) else xs
+  }
+  
+  //Q17
+  def split(n : Int, list : List[Symbol]) : (List[Symbol],List[Symbol]) = {
+      
+    def move(n : Int, current : (List[Symbol],List[Symbol])) : (List[Symbol],List[Symbol]) = current match {
+       case (x::xs, Nil) => throw new java.util.NoSuchElementException
+       case (Nil, Nil) => throw new java.util.NoSuchElementException
+       case (Nil, y::ys) => if(n > 0) move(n - 1, (List(y), ys)) else current
+       case (x::xs, y::ys) => if(n > 0) move(n - 1,((x::xs) :+ y, ys)) else current
+    }   
+    
+    move(n, (List[Symbol](), list))
+  }
 }

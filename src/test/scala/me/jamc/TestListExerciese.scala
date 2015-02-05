@@ -117,4 +117,32 @@ class TestListExerciese extends FunSuite {
     //Copy an empty list 10 times
     assert(ListExercises.duplicateN(10, List()) == List())
   }
+  
+  test("Q16: Drop every Nth element from a list."){
+    //Normal 
+    assert(ListExercises.dropNth(2, List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i, 'j, 'k))
+      == List('a, 'b, 'd, 'e, 'f, 'g, 'h, 'i, 'j, 'k)    
+    )
+     
+    //drop 0 element
+    assert(ListExercises.dropNth(0, List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i, 'j, 'k))
+      == List('b, 'c, 'd, 'e, 'f, 'g, 'h, 'i, 'j, 'k)    
+    )
+    
+    //drop empty list
+     intercept[java.util.NoSuchElementException]{ListExercises.dropNth(5, List())}
+    
+  }
+  
+  test("Q17:  Split a list into two parts."){
+    assert(ListExercises.split(3, List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i, 'j, 'k))
+        == (List('a, 'b, 'c),List('d, 'e, 'f, 'g, 'h, 'i, 'j, 'k)))
+        
+    assert(ListExercises.split(1, List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i, 'j, 'k))
+        == (List('a),List('b, 'c, 'd, 'e, 'f, 'g, 'h, 'i, 'j, 'k)))
+     
+    intercept[java.util.NoSuchElementException]{ListExercises.split(5, List())}
+  }
+  
+  
 }
