@@ -1,62 +1,84 @@
 package me.jamc
 
-import org.junit.runner.RunWith
-import org.scalatest.FunSuite
 import org.scalatest.junit.JUnitRunner
+import org.scalatest.{ FlatSpec, Matchers, BeforeAndAfter }
 
-@RunWith(classOf[JUnitRunner])
-class TestListExerciese extends FunSuite {
+class TestListExerciese extends FlatSpec  with Matchers
+  with BeforeAndAfter {
   
-  test("Q1: find last element"){
-    assert(ListExercises.last(List(1,1,2,3,5,8)) == 8)
-    intercept[java.util.NoSuchElementException]{ListExercises.last(List())}
+  "List#last " should " find last element in a list" in {
+    val input = List(1,1,2,3,5,8)
+
+    ListExercises.last(input) shouldBe 8
+  }
+
+  it should " throw exception when it is given an empty list" in {
+    evaluating{
+      ListExercises.last(List())
+    } should produce [java.util.NoSuchElementException]
   }
   
-  test("Q2: find the last but one element of a list"){
-    //more than 2 elements
-    assert(ListExercises.penultimate(List(1,1,2,3,5,8)) == 5)
-    //only 1 elements
-    intercept[java.util.NoSuchElementException]{ListExercises.penultimate(List(1))}
-    //empty list
+  "List#penultimate " should " find the last but one element of a list" in { 
+    
+    ListExercises.penultimate(List(1,1,2,3,5,8)) shouldBe 5
+  }
+  
+  it should " throw exception when it is given a list with one element " in {
+    evaluating{
+      ListExercises.penultimate(List(1))
+    } should produce [java.util.NoSuchElementException]
+  }
+
+  it should " throw exception when it is given an empty list" in {
+     //empty list
     intercept[java.util.NoSuchElementException]{ListExercises.penultimate(List())}
   }
-  
-  test("Q3: Find the Kth element of a list."){
+
+  "List#nth" should " Find the Kth element of a list." in {
     //element exist
     assert(ListExercises.nth(5, List(1,2,3,4,5,6,7)) == 6)
-    
-    //element does not exist
+  }
+
+  it should " throw exception when n > size of the list" in {
+     //element does not exist
     intercept[java.util.NoSuchElementException]{ListExercises.nth(2, List(1))}
   }
   
-  test("Q4: Find the number of elements of a list."){
-    //empty list
-    assert(ListExercises.length(List()) == 0)
-    
+  "List#length " should " find the number of elements of a list." in {
     //non empty list
     assert(ListExercises.length(List(1,2,3,4,5)) == 5)
   }
+
+  it should " return 0 when it is an empty list" in {
+    //empty list
+    assert(ListExercises.length(List()) == 0)
+    
+  }
   
-  test("Q5: Reverse a list"){
+  "List#reverse " should " Reverse a list" in {
     //non empty list
     assert(ListExercises.reverse(List(1, 1, 2, 3, 5, 8)) == List(8,5,3,2,1,1))
     
-    //empty list
+   
+  }
+
+  it should " return itself if it is an empty list" in {
+     //empty list
     assert(ListExercises.reverse(List()) == List())
   }
   
-  test("Q6: Find out whether a list is a palindrome."){
+  "List#isPalindrome " should " Find out whether a list is a palindrome." in {
     assert(ListExercises.isPalindrome(List(1, 2, 3, 2, 1)))
     assert(ListExercises.isPalindrome(List(1, 2, 3, 4, 1)) == false)
     assert(ListExercises.isPalindrome(List(1, 2, 3, 3, 2, 1)))
   }
   
-  test("Q7: Flatten a nested list structure."){
+  "List#flatten" should " Flatten a nested list structure." in {
     assert(ListExercises.flatten(List(List(1, 1, List()), 2, List(3, List(5, 8)), List())) == List(1,1,2,3,5,8))
     assert(ListExercises.flatten(List(List(1, 1), 2, List(3, List(5, 8)))) == List(1,1,2,3,5,8))
   }
   
-  test("Q8: Eliminate consecutive duplicates of list elements."){
+  "List#compress " should " Eliminate consecutive duplicates of list elements." in {
     //non empty list
     assert(ListExercises.compress(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e)) 
         == List('a, 'b, 'c, 'a, 'd, 'e))
@@ -64,7 +86,7 @@ class TestListExerciese extends FunSuite {
     assert(ListExercises.compress(List()) == List())
   }
   
-  test("Q9: Pack consecutive duplicates of list elements into sublists."){
+  "List#pack " should " Pack consecutive duplicates of list elements into sublists." in {
     //non empty list
     assert(ListExercises.pack(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e)) 
         == List(List('a, 'a, 'a, 'a), List('b), List('c, 'c), List('a, 'a), List('d), List('e, 'e, 'e, 'e)))
@@ -73,29 +95,29 @@ class TestListExerciese extends FunSuite {
     assert(ListExercises.pack(List()) == List())
   }
   
-  test("Q10: Run-length encoding of a list."){
+  "List#encode " should " Run-length encoding of a list." in {
     assert(ListExercises.encode(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e))
         == List((4,'a), (1,'b), (2,'c), (2,'a), (1,'d), (4,'e)))
   }
   
-  test("Q11: Modified run-length encoding."){
+  "List#encodeModified " should " Modified run-length encoding." in {
     assert(ListExercises.encodeModified(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e)) 
         == List((4,'a), 'b, (2,'c), (2,'a), 'd, (4,'e))
     )
   }
   
-  test("Q12: Decode a run-length encoded list."){
+  "List#decode" should " Decode a run-length encoded list." in {
     assert(ListExercises.decode(List((4, 'a), (1, 'b), (2, 'c), (2, 'a), (1, 'd), (4, 'e)))
         == List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e)
     )
   }
   
-   test("Q13: Run-length encoding of a list (direct solution)."){
+   "List#encodeDirect " should " Run-length encoding of a list (direct solution)." in {
     assert(ListExercises.encodeDirect(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e))
         == List((4,'a), (1,'b), (2,'c), (2,'a), (1,'d), (4,'e)))
   }
   
-  test("Q14: Duplicate the elements of a list."){
+  "List#duplicate " should " Duplicate the elements of a list." in {
     //Normal case
     assert(ListExercises.duplicate(List('a, 'b, 'c, 'c, 'd))
       == List('a, 'a, 'b, 'b, 'c, 'c, 'c, 'c, 'd, 'd)
@@ -105,7 +127,7 @@ class TestListExerciese extends FunSuite {
      assert(ListExercises.duplicate(List()) == List())
   }
   
-  test("Q15: Duplicate the elements of a list a given number of times."){
+  "List#duplicateN" should " Duplicate the elements of a list a given number of times." in {
     //Normal case
     assert(ListExercises.duplicateN(3, List('a, 'b, 'c, 'c, 'd))
         == List('a, 'a, 'a, 'b, 'b, 'b, 'c, 'c, 'c, 'c, 'c, 'c, 'd, 'd, 'd))
@@ -118,7 +140,7 @@ class TestListExerciese extends FunSuite {
     assert(ListExercises.duplicateN(10, List()) == List())
   }
   
-  test("Q16: Drop every Nth element from a list."){
+  "List#dropNth " should " Drop every Nth element from a list." in {
     //Normal 
     assert(ListExercises.dropNth(2, List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i, 'j, 'k))
       == List('a, 'b, 'd, 'e, 'f, 'g, 'h, 'i, 'j, 'k)    
@@ -134,7 +156,7 @@ class TestListExerciese extends FunSuite {
     
   }
   
-  test("Q17:  Split a list into two parts."){
+  "List#split " should " Split a list into two parts." in {
     assert(ListExercises.split(3, List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i, 'j, 'k))
         == (List('a, 'b, 'c),List('d, 'e, 'f, 'g, 'h, 'i, 'j, 'k)))
         
@@ -144,16 +166,25 @@ class TestListExerciese extends FunSuite {
     intercept[java.util.NoSuchElementException]{ListExercises.split(5, List())}
   }
   
-  test("Q18: Extract a slice from a list."){
+  "List#slice "should " Extract a slice from a list." in {
     assert(ListExercises.slice(3, 7, List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i, 'j, 'k))
       == List('d, 'e, 'f, 'g))
   }
   
-  test("Q19: Rotate a list N places to the left."){
+  "List#rotate " should " Rotate a list N places to the left." in {
     assert(ListExercises.rotate(3, List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i, 'j, 'k))
       == List('d, 'e, 'f, 'g, 'h, 'i, 'j, 'k, 'a, 'b, 'c))
       
     assert(ListExercises.rotate(-2, List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i, 'j, 'k))
       == List('j, 'k, 'a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i))
+  }
+
+  "List#remove " should " remove the nth number element from the list " in {
+    val input = List('a, 'b, 'c)
+    val expected = List('a, 'c)
+
+    assert(ListExercises.remove(1, input) == expected)
+
+    intercept[java.util.NoSuchElementException]{ListExercises.remove(-1, List())}    
   }
 }

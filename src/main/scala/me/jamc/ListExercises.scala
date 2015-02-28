@@ -150,6 +150,13 @@ object ListExercises {
         splitted._2 ++ splitted._1
       }else list
     }
+  }
 
+  //Q20
+  def remove[A](n : Int, list:  List[A]): List[A] = list match{
+      case Nil => throw new java.util.NoSuchElementException
+      case x::xs => {
+        if(n > 0) x :: remove(n - 1, xs) else xs
+      }
   }
 }
