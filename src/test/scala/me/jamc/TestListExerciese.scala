@@ -2,10 +2,13 @@ package me.jamc
 
 import org.scalatest.junit.JUnitRunner
 import org.scalatest.{ FlatSpec, Matchers, BeforeAndAfter }
+import me.jamc.ListExercises._
 
 class TestListExerciese extends FlatSpec  with Matchers
   with BeforeAndAfter {
   
+
+
   "List#last " should " find last element in a list" in {
     val input = List(1,1,2,3,5,8)
 
@@ -13,9 +16,7 @@ class TestListExerciese extends FlatSpec  with Matchers
   }
 
   it should " throw exception when it is given an empty list" in {
-    evaluating{
-      ListExercises.last(List())
-    } should produce [java.util.NoSuchElementException]
+    intercept[java.util.NoSuchElementException]{last(List())}
   }
   
   "List#penultimate " should " find the last but one element of a list" in { 
@@ -24,9 +25,8 @@ class TestListExerciese extends FlatSpec  with Matchers
   }
   
   it should " throw exception when it is given a list with one element " in {
-    evaluating{
-      ListExercises.penultimate(List(1))
-    } should produce [java.util.NoSuchElementException]
+
+    intercept[java.util.NoSuchElementException]{penultimate(List(1))}
   }
 
   it should " throw exception when it is given an empty list" in {
@@ -183,8 +183,87 @@ class TestListExerciese extends FlatSpec  with Matchers
     val input = List('a, 'b, 'c)
     val expected = List('a, 'c)
 
-    assert(ListExercises.remove(1, input) == expected)
+    ListExercises.remove(1, input) shouldBe expected
+  }
 
-    intercept[java.util.NoSuchElementException]{ListExercises.remove(-1, List())}    
+  it should " throw exception if the n > size of the list" in {
+   
+    intercept[java.util.NoSuchElementException]{remove(2, List())}
+  }
+
+  "List#insertAt" should " return a list with the element at the correct position " in {
+    val input = List('a, 'b, 'c)
+    val expected = List('a, 'b, 'c, 'd)
+
+    insertAt('d, 3, input) shouldBe expected
+  }
+
+  it should " throw exception if n - size > 1 " in {
+    val input = List('a, 'b, 'c)
+
+    intercept[java.util.NoSuchElementException]{insertAt('d, 5, input)}
+  }
+
+  "List#range " should " return a list with the given range " in {
+    val expected = List(1, 2, 3, 4, 5)
+
+    range(1, 5) shouldBe expected
+  }
+
+  it should " return a list with single element if start = end" in {
+    range(0, 0) shouldBe List(0)
+  }
+
+  it should " throw exception if start > end " in {
+    intercept[java.lang.Exception]{range(9, 0)}
+  }
+
+  "List#randomSelect " should " return a list of element within the given list when n < list.size " in {
+    val input = List('a, 'b, 'c, 'd, 'e, 'f)
+    val result = randomSelect(3, input)
+
+    result should have size 3
+    result.map { e => input should contain(e) } 
+  }
+
+  it should " return a list of elements from the given list when n > list.size " in {
+    val input = List('a, 'b, 'c, 'd, 'e, 'f)
+    intercept[java.lang.Exception]{randomSelect(10, input)}
+  }
+
+  "List#lotto " should " return a list of random numbers within the given boundary " in {
+    val result = lotto(5, 90)
+
+    result should have size 5
+    result.map( _ should (be >= (1) and be <= 90))
+  }
+
+  it should " return an empty list if given number is 0 " in {
+    lotto(0, 100) should have size 0
+  }
+
+  "List#combinations" should "return all possible combinations of a list " in {
+    val input = List('a, 'b, 'c, 'd)
+    val expected = List(List('a, 'b, 'c), List('a, 'c, 'd),List('a, 'b, 'd), List('b, 'c, 'd))
+    val result = combinations(3, input)
+
+    result should have size expected.size
+    result.map{ l => expected.exists { _.toSet == l.toSet }}
+    
+  }
+
+  it should "return a list with only one element when n = list.size " in {
+    val input = List('a, 'b, 'c, 'd)
+    combinations(4, input) shouldBe List(input)
+  }
+
+  it should "throw exception when n > list.size " in {
+    val input = List('a, 'b, 'c, 'd)
+    intercept[java.lang.Exception]{combinations(10,input)}
+  }
+
+  it should "return a list with only one element which is a empty list if n = 0 " in {
+    combinations(0, List('a, 'b)) shouldBe List(Nil)
+    combinations(0, List()) shouldBe List(Nil)
   }
 }

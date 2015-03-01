@@ -1,5 +1,7 @@
 package me.jamc
 
+import scala.util.Random._
+
 object ListExercises {
  
   //Q1: find the last element of a list
@@ -15,9 +17,9 @@ object ListExercises {
   }
   
   //Q3: Find the Kth element of a list.
-  def nth(n : Int, list : List[Int]) : Int = list match{
+  def nth[A](n : Int, list : List[A]) : A = list match{
     case Nil => throw new java.util.NoSuchElementException
-    case x :: xs => if(n == 0) list.head else nth(n - 1, list.tail)
+    case x :: xs => if(n == 0) x else nth(n - 1, xs)
   }
   
   //Q4 : Find the number of elements of a list.
@@ -152,11 +154,61 @@ object ListExercises {
     }
   }
 
+/*making the method more generic for all different type of obejcts*/
   //Q20
   def remove[A](n : Int, list:  List[A]): List[A] = list match{
-      case Nil => throw new java.util.NoSuchElementException
-      case x::xs => {
+    case Nil => throw new java.util.NoSuchElementException
+    case x::xs => {
         if(n > 0) x :: remove(n - 1, xs) else xs
-      }
+    }
   }
+
+  //Q21 
+  def insertAt[A](obj: A, n : Int, list: List[A]): List[A] = list match{
+    case Nil => 
+      if(n == 0) List(obj) else throw new java.util.NoSuchElementException
+    case x::xs => {
+      if(n == 0) return obj :: x :: xs
+      else if (n > 0) x :: insertAt(obj, n - 1, xs)
+      else throw new java.util.NoSuchElementException
+    }
+  }
+
+  //Q22
+  def range(start: Int, end: Int): List[Int] = {
+    if(start < end) start :: range(start + 1, end)
+    else if(start == end) List(end)
+    else throw new java.lang.Exception
+  }
+
+  //Q23
+  def randomSelect[A](n: Int, list: List[A]): List[A] = {
+    if(n > list.size) throw new java.lang.Exception
+
+    val num = nextInt(list.size)
+    val elem = nth(num, list)
+
+    if(n == 1) List(elem) else elem :: randomSelect(n - 1, remove(num, list))
+  }
+
+  //Q24
+  def lotto(n: Int, upperBound: Int): List[Int] = {
+    (1 to n).foldLeft(List[Int]())((list, i) => list :+ (nextInt(upperBound) + 1))
+  }
+
+  //Q25 
+  //don't need to test this one
+  def randomPermute[A](list: List[A]): List[A] = randomSelect(list.size, list)
+
+  //Q26
+  def combinations[A](n: Int, list: List[A]): List[List[A]] = {
+    if(n > list.size || n < 0) throw new java.lang.Exception
+    else if (n <= 0) List(List())
+    else if (n == list.size) List(list)
+    else {
+      if(n > 1) combinations(n - 1, list.tail).map( _ :+ list.head) ++ combinations(n, list.tail)
+      else list.map(List(_))
+    }
+  }
+
 }
