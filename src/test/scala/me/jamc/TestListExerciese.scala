@@ -248,7 +248,7 @@ class TestListExerciese extends FlatSpec  with Matchers
     val result = combinations(3, input)
 
     result should have size expected.size
-    result.map{ l => expected.exists { _.toSet == l.toSet }}
+    result.map{ l => expected.exists { _.toSet == l.toSet } shouldBe true}
     
   }
 
